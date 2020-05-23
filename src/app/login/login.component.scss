@@ -1,0 +1,51 @@
+$jumbo: 3rem;
+$jumbo-sm: 2.5rem;
+$title: 2rem;
+$title-sm: 1.5rem;
+$normal: 1rem;
+$md: 0.9rem;
+$sm: 0.8rem;
+
+.wrapper {
+    background-color: #263238   ;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-card {
+    width: 350px;
+    margin: 0 auto;
+}
+
+.card-header {
+    border: none;
+}
+
+.card-title {
+    font-weight: bold;
+    padding: 0.25rem;
+    font-size: $normal;
+    border-bottom: 5px solid #388e3c;
+}
+
+.btn-login {
+    color: white;
+    background-color: #388e3c;
+}
+
+.text-md {
+    font-size: $md;
+}
+
+
+
+@media(max-width: 1400px) {
+    
+}
+
+@media(max-width: 600px) {
+    
+}
