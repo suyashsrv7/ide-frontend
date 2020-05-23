@@ -1,0 +1,47 @@
+@import url("../../styles.scss");
+
+.navbar {
+    width: 70%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    grid-template-rows: 1fr;
+    grid-template-areas : "brand links";
+    justify-content: space-between;
+} 
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.brand {
+    grid-area: brand;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.brand-logo {
+    height: 1.5rem;
+}
+
+.brand-name {
+    font-size: 1.6rem;
+    font-weight: bold;
+    padding: 0 0.5rem;
+}
+
+.navbar-container {
+    background-color: #ffffff;
+    box-shadow: 0 0 4px 1px gainsboro;
+}
+
+.links {
+    grid-area: links;
+}
+
+.nav-item {
+    padding: 0 0.5rem;
+}
