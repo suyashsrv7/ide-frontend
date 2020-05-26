@@ -1,0 +1,74 @@
+
+.card {
+    background-color: #fafafa;
+    height: 650px;
+}
+
+.settings-header {
+    padding: 0.5rem 0;
+    display: grid;
+    grid-template-columns: 20% 30% 25% 25%;
+    grid-template-rows: 100%;
+    grid-template-areas: "settings-left timer settings-middle settings-right";
+    // justify-content: space-between;
+}
+
+.settings {
+    padding: 0;
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+   
+}
+
+
+.settings-left {
+    grid-area: settings-left;
+    display: flex;
+    justify-content: flex-start;
+   
+}
+
+.settings-middle {
+    grid-area: settings-middle;
+    display: flex;
+    justify-content: flex-end;
+    // align-items: flex-end;
+    .settings-item {
+        margin: 0 0.25rem;
+    }
+    .settings-item:first-child {
+        margin-left: 0;
+    }
+}
+
+.settings-right {
+    grid-area: settings-right;
+    display: flex;
+    justify-content: flex-end;
+    .settings-item {
+        margin: 0 0.5rem;
+    }
+    .settings-item:last-child {
+        margin-right: 0;
+    }
+}
+
+
+.settings-item{
+    display: flex;
+}
+
+.custom-select {
+    background-color: #fafafa;
+}
+
+.btn-icon {
+    border: 1px solid gainsboro;
+}
+.icon  {
+    color: dimgray;
+}
+
+

@@ -1,0 +1,62 @@
+<div class="settings-header">
+    <ul class="settings settings-left">
+        <li class="settings-item">
+            <select class="browser-default custom-select custom-select-sm">
+                <option selected>Lang</option>
+                <option value="1">C++</option>
+                <option value="2">Java</option>
+                <option value="3">Python 2.7</option>
+                <option value="4">Python 3.6</option>
+            </select>
+        </li>
+    </ul>
+    <ul class="settings settings-middle">
+        <li class="settings-item">
+            <button type="button" class="btn btn-sm waves-effect btn-icon ">
+                <i class="fas fa-cloud icon"></i>
+            </button>
+        </li>
+        <li class="settings-item">
+            <button type="button" class="btn btn-sm waves-effect btn-icon ">
+                <i class="fas fa-share-alt icon"></i>
+            </button>
+        </li>
+        <li class="settings-item">
+            <button type="button" class="btn btn-sm waves-effect btn-icon ">
+                <i class="fas fa-clone icon"></i>
+            </button>
+        </li>
+        <li class="settings-item">
+            <button type="button" class="btn btn-sm waves-effect btn-icon ">
+                <i class="fas fa-sync-alt icon"></i>
+            </button>
+        </li>
+    </ul>
+    <ul class="settings settings-right">
+
+        <li class="settings-item">
+            <select class="browser-default custom-select custom-select-sm">
+                <option value="1">14px</option>
+                <option value="2">16px</option>
+                <option value="3">18px</option>
+            </select>
+        </li>
+        <li class="settings-item">
+            <select class="browser-default custom-select custom-select-sm">
+                <option selected>Theme</option>
+                <option value="1">xcode</option>
+                <option value="2">twilight</option>
+                <option value="3">monokai</option>
+                <option value="4">idele-fingers</option>
+            </select>
+        </li>
+    </ul>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <div ace-editor [(text)]="text" [mode]="'sql'" [theme]="'eclipse'" [options]="options" [readOnly]="false"
+            [autoUpdateContent]="true" [durationBeforeCallback]="1000" (textChanged)="onChange($event)"
+            style="min-height: 100%; width:100%; overflow: auto; font-family: 'Ubuntu Mono', monospace;"></div>
+    </div>
+</div>
