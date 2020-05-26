@@ -1,1 +1,123 @@
-<p>profile works!</p>
+<div class="wrapper-container">
+    <app-nav></app-nav>
+    <div class="wrapper">
+        <div class="right option">
+            <div class="option-title">
+                Profile Settings
+            </div>
+            <!-- Button trigger modal -->
+            <button class="btn btn-sm" (click)="basicModal.show()">Launch demo modal</button>
+
+            <div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+                aria-labelledby="myBasicModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="form-group d-flex">
+                                <input type="text" class="form-control form-control-sm input-name mr-3"
+                                    placeholder="Name">
+                                <select class="browser-default custom-select custom-select-sm">
+                                    <option selected>Language</option>
+                                    <option value="1">C++</option>
+                                    <option value="2">Java</option>
+                                    <option value="3">Python 2.7</option>
+                                    <option value="4">Python 3.6</option>
+                                </select>
+                            </div>
+                            <textarea name="" id="" cols="30" rows="10"
+                                class="form-control form-control-sm mb-2"></textarea>
+                            <div class="form-group d-flex justify-content-end mb-0">
+                                <button class="btn btn-sm bg-dark text-white px-3"> Save </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="option-content mb-4">
+                <img src="https://developers.google.com/web/images/contributors/no-photo.jpg" alt=""
+                    class="profile-img">
+                <p class="user-info"> <span>@{{user.username}}</span> <span>{{user.email}}</span></p>
+                <p class="text-center user-action" (click)="toggleCollapse()">Change password <i class="fas fa-key"></i>
+                </p>
+
+                <label class="d-block user-action text-center" for="file" >Change profile photo <i class="fas fa-edit"></i></label>
+                <input type="file" id="file" (change)="handleFileInput($event.target.files)" style="display: none;">
+
+            </div>
+            <div class="option collapsible" [ngClass]="{'hide': !collapsePassword}">
+                <div class="option-title">
+                    Change Password
+                </div>
+                <div class="option-content p-5">
+                    <input type="password" class="form-control form-control-sm mb-3" placeholder="Password">
+                    <input type="password" class="form-control form-control-sm mb-3" placeholder="Confirm password">
+                    <button class="btn btn-sm btn-block bg-dark text-white">Submit</button>
+                </div>
+            </div>
+            <div class="option">
+                <div class="option-title" [ngClass]="{'hide': !collapseFileupload}">
+                    File Upload
+                </div>
+            </div>
+        </div>
+        <div class="left-one option">
+            <div class="option-title">
+                Default Settings
+            </div>
+            <div class="option-content">
+                <p class="pallete mb-1">Preferred language</p>
+                <div class="sub-content mb-4">
+                    <button
+                    *ngFor="let in of languages; let i = index;"
+                    [ngClass]="{'bg-light': selectedLang == in}"
+                    (click) = "updateSelectedLang(i)"
+                     class="btn btn-sm border px-3 mr-3">{{in}}</button>
+                </div>
+                <p class="pallete mb-1">Favorite theme</p>
+                <div class="sub-content mb-4">
+                    <button 
+                    *ngFor="let in of themes; let i = index;"
+                    [ngClass]="{'bg-light': selectedTheme == in}"
+                    (click) = "updateSelectedTheme(i)"
+                    class="btn btn-sm border px-3 mr-3">{{in}}</button>
+                </div>
+                <p class="pallete mb-1">Comfortable font</p>
+                <div class="sub-content mb-4">
+                    <button 
+                    *ngFor="let in of fonts; let i = index;"
+                    [ngClass]="{'bg-light': selectedFont == in}"
+                    (click) = "updateSelectedFont(i)"
+                    class="btn btn-sm border px-3 mr-3">{{in}}</button>
+                </div>
+                <p class="pallete mb-1">Default Code</p>
+                <textarea [(ngModel)]="defaultCode" cols="30" rows="10" class="form-control form-control-sm mb-2 defCode" ></textarea>
+
+                <div class="form-group d-flex justify-content-end mb-0">
+                    <button class="btn btn-sm bg-dark text-white px-3">Save</button>
+                </div>
+            </div>
+        </div>
+        <div class="left-two option">
+            <div class="option-title d-flex justify-content-between py-0">
+                <span>Repository</span>
+                <button class="btn btn-sm border"><i class="fas fa-plus"></i></button>
+            </div>
+            <div class="option-content">
+                <button 
+                *ngFor="let in of repositoryCodes; let i = index;"
+                class="btn btn-sm border px-3 mr-2">{{in.title}}</button>
+
+            </div>
+        </div>
+        <div class="left-three option">
+            <div class="option-title">
+                Shared Codes
+            </div>
+            <div class="option-content">
+                <button 
+                *ngFor="let in of sharedCodes; let i = index;"
+                class="btn btn-sm border px-3 mr-2">{{in.title}}</button>
+            </div>
+        </div>
+    </div>
+</div>

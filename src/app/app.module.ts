@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
+;
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { AceEditorModule } from 'ng2-ace-editor';
 
@@ -13,6 +15,7 @@ import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { EditorComponent } from './editor/editor.component';
 import { ProfileComponent } from './profile/profile.component';
+
 
 @NgModule({
   declarations: [
@@ -31,6 +34,9 @@ import { ProfileComponent } from './profile/profile.component';
     AppRoutingModule,
     MDBBootstrapModule.forRoot(),
     AceEditorModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // NgModule
   ],
   providers: [],
   bootstrap: [AppComponent]
