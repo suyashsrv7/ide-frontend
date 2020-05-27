@@ -6,28 +6,29 @@
                 Profile Settings
             </div>
             <!-- Button trigger modal -->
-            <button class="btn btn-sm" (click)="basicModal.show()">Launch demo modal</button>
+            <!-- <button class="btn btn-sm" (click)="basicModal.show(); displayCodeInfo(0, false)">Launch demo modal</button> -->
 
             <div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
                 aria-labelledby="myBasicModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-body">
+                        <div class="modal-body bg-body">
                             <div class="form-group d-flex">
-                                <input type="text" class="form-control form-control-sm input-name mr-3"
-                                    placeholder="Name">
-                                <select class="browser-default custom-select custom-select-sm">
-                                    <option selected>Language</option>
-                                    <option value="1">C++</option>
-                                    <option value="2">Java</option>
-                                    <option value="3">Python 2.7</option>
-                                    <option value="4">Python 3.6</option>
+                                <input type="text" class="form-control form-control-sm input-width mr-3"
+                                    placeholder="Name" [(ngModel)] = "dName">
+                                <select class="browser-default custom-select custom-select-sm mr-3 input-width"  [(ngModel)] = "dLang">
+                                    <option 
+                                    *ngFor="let in of languages; let i = index;" 
+                                    (change)="demo()"
+                                    [value]="in">{{in}}</option>
                                 </select>
+                                <input type="text" class="form-control form-control-sm"
+                                    placeholder="sharing-link" *ngIf="dSharingLink" [value]="dSharingLink" readonly>
                             </div>
                             <textarea name="" id="" cols="30" rows="10"
-                                class="form-control form-control-sm mb-2"></textarea>
+                                class="form-control form-control-sm mb-2" [(ngModel)]="dCode"></textarea>
                             <div class="form-group d-flex justify-content-end mb-0">
-                                <button class="btn btn-sm bg-dark text-white px-3"> Save </button>
+                                <button class="btn btn-sm bg-dark text-white px-3" (click)="saveCode(); basicModal.hide()"> Save </button>
                             </div>
                         </div>
                     </div>
@@ -46,17 +47,19 @@
             </div>
             <div class="option collapsible" [ngClass]="{'hide': !collapsePassword}">
                 <div class="option-title">
-                    Change Password
+                    <span>Change Password</span>
+                    <span class="grey-text text-sm" *ngIf="changeInPassword != ''">{{changeInPassword}}</span>
                 </div>
                 <div class="option-content p-5">
-                    <input type="password" class="form-control form-control-sm mb-3" placeholder="Password">
-                    <input type="password" class="form-control form-control-sm mb-3" placeholder="Confirm password">
-                    <button class="btn btn-sm btn-block bg-dark text-white">Submit</button>
+                    <input type="password" class="form-control form-control-sm mb-3" placeholder="Password" [(ngModel)]="password">
+                    <input type="password" class="form-control form-control-sm mb-3" placeholder="Confirm password" [(ngModel)]="cnfrmPass">
+                    <button class="btn btn-sm btn-block bg-dark text-white" (click)="changePassword()">Submit</button>
                 </div>
             </div>
             <div class="option">
                 <div class="option-title" [ngClass]="{'hide': !collapseFileupload}">
-                    File Upload
+                    <span>File Upload</span>
+                    <span class="grey-text text-sm" *ngIf="changeInFileUpload != ''">{{changeInFileUpload}}</span>
                 </div>
             </div>
         </div>
@@ -91,7 +94,7 @@
                     class="btn btn-sm border px-3 mr-3">{{in}}</button>
                 </div>
                 <p class="pallete mb-1">Default Code</p>
-                <textarea [(ngModel)]="defaultCode" cols="30" rows="10" class="form-control form-control-sm mb-2 defCode" (change)="detectChangeinUserDefaults()"></textarea>
+                <textarea [(ngModel)]="defaultCode" cols="30" rows="10" class="form-control form-control-sm mb-2 bg-body" (change)="detectChangeinUserDefaults()"></textarea>
 
                 <div class="form-group d-flex justify-content-end mb-0">
                     <button (click)="saveUserDefaults()"
@@ -107,6 +110,7 @@
             <div class="option-content">
                 <button 
                 *ngFor="let in of repositoryCodes; let i = index;"
+                (click)="basicModal.show(); displayCodeInfo(i, false)"
                 class="btn btn-sm border px-3 mr-2">{{in.title}}</button>
 
             </div>
@@ -118,6 +122,7 @@
             <div class="option-content">
                 <button 
                 *ngFor="let in of sharedCodes; let i = index;"
+                (click)="basicModal.show(); displayCodeInfo(i, true)"
                 class="btn btn-sm border px-3 mr-2">{{in.title}}</button>
             </div>
         </div>

@@ -25,6 +25,16 @@ export class ProfileComponent implements OnInit {
   repositoryCodes: Array<any> = [];
   sharedCodes: Array<any> = [];
 
+  idx: number;
+  dName: string;
+  dSharingLink: string;
+  dLang: string;
+  dCode: string;
+  dSharable: boolean;
+  dType: number;
+
+
+
   user: User;
 
   password:string;
@@ -33,6 +43,8 @@ export class ProfileComponent implements OnInit {
 
   // messages
   changeInUserDefaults: string;
+  changeInPassword: string;
+  changeInFileUpload: string;
 
   constructor(private userDetails: UserdetailsService) { }
 
@@ -43,6 +55,10 @@ export class ProfileComponent implements OnInit {
     this.getUserInfo();
   }
 
+  demo() {
+    console.log(this.dLang);
+  }
+
   toggleCollapse() {
     this.collapsePassword = !this.collapsePassword;
   }
@@ -51,10 +67,31 @@ export class ProfileComponent implements OnInit {
     this.collapseFileupload = !this.collapseFileupload;
   }
 
+  validateFile() {
+    let type = this.fileToUpload.type;
+    console.log(type);
+    if(type.split("/")[0] !== "image") return false;
+    return true;
+  }
+
   handleFileInput(files: FileList) {
     console.log("sdfsdf");
     this.toggleFileuploadCollapse();
     this.fileToUpload = files.item(0);
+    if(!this.validateFile()) {
+      this.changeInFileUpload = "Invalid file type";
+      setTimeout(() => {
+        this.changeInFileUpload = "";
+        this.toggleFileuploadCollapse();
+      }, 1000);
+      return;
+    }
+    this.changeInFileUpload = "uploading...";
+    this.userDetails.saveImage(this.fileToUpload);
+    setTimeout(() => {
+      this.toggleFileuploadCollapse();
+    }, 1000);
+    
     console.log(this.fileToUpload);
   }
 
@@ -88,12 +125,6 @@ export class ProfileComponent implements OnInit {
     this.selectedFont = this.fonts[idx];
   }
 
-  savePassword() {
-    if(this.password.length == 0 || this.password != this.cnfrmPass) {
-      return false;
-    }
-  }
-
   detectChangeinUserDefaults() {
     this.changeInUserDefaults = "changes have not been saved";
   }
@@ -109,6 +140,63 @@ export class ProfileComponent implements OnInit {
     }
 
     this.userDetails.saveUserDefault(data);
+  }
+
+  displayCodeInfo(idx, isSharable) {
+    this.idx = idx;
+    if(isSharable) {
+      this.dLang = this.sharedCodes[idx].language;
+      this.dName = this.sharedCodes[idx].title;
+      this.dCode = this.sharedCodes[idx].content;
+      this.dSharingLink = this.sharedCodes[idx].id;
+    } 
+    else {
+      this.dLang = this.repositoryCodes[idx].language;
+      this.dName = this.repositoryCodes[idx].title;
+      this.dCode = this.repositoryCodes[idx].content;
+      this.dSharingLink = "";
+    }
+
+    this.dSharable = isSharable;
+    this.dType = isSharable ? 0 : 1;
+  }
+
+  saveCode() {
+    let data = {
+      id: this.dSharingLink,
+      content: this.dCode,
+      title: this.dName,
+      language: this.dLang,
+      sharable: this.dSharable,
+      type: this.dType
+    }
+
+    if(this.dType == 0) {
+      this.sharedCodes[this.idx] = data;
+    }
+    else {
+      this.repositoryCodes[this.idx] = data;
+    }
+
+    this.userDetails.saveUserCode(data);
+  }
+
+  changePassword() {
+    console.log(this.password);
+    if (!this.password || this.password?.length == 0) {
+      this.changeInPassword = "Empty fields";
+      return;
+    }
+    if (this.password != this.cnfrmPass) {
+      this.changeInPassword = "Password did not match";
+      return;
+    }
+    this.changeInPassword = "please wait...";
+    this.userDetails.savePassword(this.password);
+    this.changeInPassword = "success";
+    setTimeout(() => {
+      this.toggleCollapse();
+    }, 1000);
   }
 
 }

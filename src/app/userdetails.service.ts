@@ -23,9 +23,22 @@ export class UserdetailsService {
     // return this.userInfo.asObservable();
   }
 
+  // hitting api's
   saveUserDefault(updateUserDefaults: UserDefault) {
     this.userDefaults = updateUserDefaults;
     console.log(updateUserDefaults);
+  }
+
+  saveUserCode(updateUserCode:UserCode) {
+    console.log(updateUserCode);
+  }
+
+  savePassword(password: string) {
+    console.log(password);
+  }
+
+  saveImage(file: any) {
+    console.log(file);
   }
 
   getUserDetails() {
