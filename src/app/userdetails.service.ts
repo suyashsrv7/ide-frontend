@@ -7,6 +7,8 @@ import { Observable, Subject } from 'rxjs';
 })
 export class UserdetailsService {
 
+  rootUrl:string = "http://localhost:8080/";
+
   userDefaults: UserDefault;
   userCodes: Array<UserCode>;
   repositoryCodes: Array<UserCode> = [];

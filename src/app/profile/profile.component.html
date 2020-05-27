@@ -62,7 +62,8 @@
         </div>
         <div class="left-one option">
             <div class="option-title">
-                Default Settings
+                <span>Default Settings</span>
+                <span class="grey-text" *ngIf="changeInUserDefaults != ''">{{changeInUserDefaults}}</span>
             </div>
             <div class="option-content">
                 <p class="pallete mb-1">Preferred language</p>
@@ -90,10 +91,11 @@
                     class="btn btn-sm border px-3 mr-3">{{in}}</button>
                 </div>
                 <p class="pallete mb-1">Default Code</p>
-                <textarea [(ngModel)]="defaultCode" cols="30" rows="10" class="form-control form-control-sm mb-2 defCode" ></textarea>
+                <textarea [(ngModel)]="defaultCode" cols="30" rows="10" class="form-control form-control-sm mb-2 defCode" (change)="detectChangeinUserDefaults()"></textarea>
 
                 <div class="form-group d-flex justify-content-end mb-0">
-                    <button class="btn btn-sm bg-dark text-white px-3">Save</button>
+                    <button (click)="saveUserDefaults()"
+                    class="btn btn-sm bg-dark text-white px-3">Save</button>
                 </div>
             </div>
         </div>

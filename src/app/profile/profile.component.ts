@@ -13,6 +13,7 @@ export class ProfileComponent implements OnInit {
   collapseFileupload: boolean = false;
   fileToUpload: File = null;
 
+  defaultId: number;
   languages: Array<string> = [];
   selectedLang: string;
   themes: Array<string> = [];
@@ -28,6 +29,10 @@ export class ProfileComponent implements OnInit {
 
   password:string;
   cnfrmPass: string;
+
+
+  // messages
+  changeInUserDefaults: string;
 
   constructor(private userDetails: UserdetailsService) { }
 
@@ -56,6 +61,7 @@ export class ProfileComponent implements OnInit {
   getUserInfo() {
     let data = this.userDetails.getUserInfo();
     console.log(data);
+    this.defaultId = data.userDefaults.id;
     this.selectedLang = data.userDefaults.language;
     this.selectedTheme = data.userDefaults.theme;
     this.selectedFont = data.userDefaults.font;
@@ -68,14 +74,17 @@ export class ProfileComponent implements OnInit {
   }
 
   updateSelectedLang(idx) {
+    this.detectChangeinUserDefaults();
     this.selectedLang = this.languages[idx];
   }
 
   updateSelectedTheme(idx) {
+    this.detectChangeinUserDefaults();
     this.selectedTheme = this.themes[idx];
   }
 
   updateSelectedFont(idx) {
+    this.detectChangeinUserDefaults();  
     this.selectedFont = this.fonts[idx];
   }
 
@@ -85,8 +94,21 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  detectChangeinUserDefaults() {
+    this.changeInUserDefaults = "changes have not been saved";
+  }
+
   saveUserDefaults() {
-    
+    this.changeInUserDefaults = "";
+    let data = {
+      id: this.defaultId,
+      default_code: this.defaultCode,
+      font: this.selectedFont,
+      language: this.selectedLang,
+      theme: this.selectedTheme
+    }
+
+    this.userDetails.saveUserDefault(data);
   }
 
 }
