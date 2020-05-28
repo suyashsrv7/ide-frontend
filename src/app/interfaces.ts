@@ -2,13 +2,13 @@
 export interface User {
     id: number;
     email: string;
-    img_url: string;
+    imgUrl: string;
     username: string;
 }
 
 export interface UserDefault {
     id: number;
-    default_code: string;
+    defaultCode: string;
     font: string;
     language: string;
     theme: string;
@@ -30,4 +30,10 @@ export interface UserDetails {
     username: string;
     userCodes: Array<UserCode>;
     userDefaults: UserDefault;
+}
+
+export interface RegisterUser {
+    username: string;
+    password: string;
+    email: string;
 }

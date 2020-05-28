@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { AceEditorModule } from 'ng2-ace-editor';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,7 @@ import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { EditorComponent } from './editor/editor.component';
 import { ProfileComponent } from './profile/profile.component';
+import { HttpInterceptorService } from './http-interceptor.service';
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { ProfileComponent } from './profile/profile.component';
     NavComponent,
     HomeComponent,
     EditorComponent,
-    ProfileComponent
+    ProfileComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -36,9 +39,15 @@ import { ProfileComponent } from './profile/profile.component';
     AceEditorModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
+
     // NgModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorService,
+    multi:true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

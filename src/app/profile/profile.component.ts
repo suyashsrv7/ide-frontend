@@ -37,6 +37,8 @@ export class ProfileComponent implements OnInit {
 
   user: User;
 
+  imageUrl: string = "https://developers.google.com/web/images/contributors/no-photo.jpg";
+
   password:string;
   cnfrmPass: string;
 
@@ -74,6 +76,14 @@ export class ProfileComponent implements OnInit {
     return true;
   }
 
+  resolveImageUrl(data, split) {
+    if(split) {
+      data = data.split(":")[1].slice(1);
+    }
+    let url = "http://localhost:8080/" + data;
+    console.log(url);
+    return url;
+  }
   handleFileInput(files: FileList) {
     console.log("sdfsdf");
     this.toggleFileuploadCollapse();
@@ -87,26 +97,35 @@ export class ProfileComponent implements OnInit {
       return;
     }
     this.changeInFileUpload = "uploading...";
-    this.userDetails.saveImage(this.fileToUpload);
-    setTimeout(() => {
-      this.toggleFileuploadCollapse();
-    }, 1000);
-    
+    this.userDetails.saveImage(this.fileToUpload).subscribe((res:any) => {
+      console.log(res);
+
+      this.imageUrl = this.resolveImageUrl(res, true);
+      console.log(this.imageUrl);
+      this.changeInFileUpload = "uploaded";
+      setTimeout(() => {
+        this.toggleFileuploadCollapse();
+      }, 1000);
+    });
     console.log(this.fileToUpload);
   }
 
   getUserInfo() {
-    let data = this.userDetails.getUserInfo();
-    console.log(data);
-    this.defaultId = data.userDefaults.id;
-    this.selectedLang = data.userDefaults.language;
-    this.selectedTheme = data.userDefaults.theme;
-    this.selectedFont = data.userDefaults.font;
-    this.defaultCode = data.userDefaults.default_code;
-    this.repositoryCodes = data.repositoryCodes;
-    this.sharedCodes = data.sharedCodes;
-    this.user = data.user;
-    console.log(this.repositoryCodes);
+    console.log("getting....");
+    this.userDetails.getUserInfo().subscribe(data => {
+      console.log("got!",data);
+      this.defaultId = data.userDefaults.id;
+      this.selectedLang = data.userDefaults.language;
+      this.selectedTheme = data.userDefaults.theme;
+      this.selectedFont = data.userDefaults.font;
+      this.defaultCode = data.userDefaults.defaultCode;
+      this.repositoryCodes = data.repositoryCodes;
+      this.sharedCodes = data.sharedCodes;
+      this.user = data.user;
+      this.imageUrl = this.resolveImageUrl(data.user.imgUrl, false);
+      console.log(this.sharedCodes);
+    });
+    
 
   }
 
@@ -133,7 +152,7 @@ export class ProfileComponent implements OnInit {
     this.changeInUserDefaults = "";
     let data = {
       id: this.defaultId,
-      default_code: this.defaultCode,
+      defaultCode: this.defaultCode,
       font: this.selectedFont,
       language: this.selectedLang,
       theme: this.selectedTheme
@@ -159,6 +178,18 @@ export class ProfileComponent implements OnInit {
 
     this.dSharable = isSharable;
     this.dType = isSharable ? 0 : 1;
+  }
+
+  addNewCode() {
+    this.dLang = ""
+    this.dName = "";
+    this.dCode = "";
+    this.dSharable = false;
+    this.dSharingLink = Math.random().toString(36).slice(2, 8);
+
+    this.dSharable = false;
+    this.dType = 1;
+    this.idx = this.repositoryCodes.length || 0;
   }
 
   saveCode() {
@@ -192,11 +223,14 @@ export class ProfileComponent implements OnInit {
       return;
     }
     this.changeInPassword = "please wait...";
-    this.userDetails.savePassword(this.password);
-    this.changeInPassword = "success";
-    setTimeout(() => {
-      this.toggleCollapse();
-    }, 1000);
+    this.userDetails.savePassword(this.password).subscribe((res:any) => {
+      console.log(res);
+      this.changeInPassword = "success";
+      setTimeout(() => {
+        this.toggleCollapse();
+      }, 1000);
+    });
+    
   }
 
 }

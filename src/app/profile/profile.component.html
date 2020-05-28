@@ -1,10 +1,8 @@
 <div class="wrapper-container">
     <app-nav></app-nav>
     <div class="wrapper">
-        <div class="right option">
-            <div class="option-title">
-                Profile Settings
-            </div>
+        <div class="right">
+            
             <!-- Button trigger modal -->
             <!-- <button class="btn btn-sm" (click)="basicModal.show(); displayCodeInfo(0, false)">Launch demo modal</button> -->
 
@@ -23,7 +21,7 @@
                                     [value]="in">{{in}}</option>
                                 </select>
                                 <input type="text" class="form-control form-control-sm"
-                                    placeholder="sharing-link" *ngIf="dSharingLink" [value]="dSharingLink" readonly>
+                                    placeholder="sharing-link" *ngIf="dType == 0" [value]="dSharingLink" readonly>
                             </div>
                             <textarea name="" id="" cols="30" rows="10"
                                 class="form-control form-control-sm mb-2" [(ngModel)]="dCode"></textarea>
@@ -34,88 +32,107 @@
                     </div>
                 </div>
             </div>
-            <div class="option-content mb-4">
-                <img src="https://developers.google.com/web/images/contributors/no-photo.jpg" alt=""
-                    class="profile-img">
-                <p class="user-info"> <span>@{{user.username}}</span> <span>{{user.email}}</span></p>
-                <p class="text-center user-action" (click)="toggleCollapse()">Change password <i class="fas fa-key"></i>
-                </p>
-
-                <label class="d-block user-action text-center" for="file" >Change profile photo <i class="fas fa-edit"></i></label>
-                <input type="file" id="file" (change)="handleFileInput($event.target.files)" style="display: none;">
-
+            <div class="option card z-depth-1 mb-2">
+                <div class="card-body">
+                    <div class="option-title">
+                        Profile Settings
+                    </div>
+                    <div class="option-content mb-4">
+                        <img src="{{imageUrl}}"
+                            class="profile-img">
+                        <p class="user-info"> <span>@{{user?.username}}</span> <span>{{user?.email}}</span></p>
+                        <p class="text-center user-action" (click)="toggleCollapse()">Change password <i class="fas fa-key"></i>
+                        </p>
+        
+                        <label class="d-block user-action text-center" for="file" >Change profile photo <i class="fas fa-edit"></i></label>
+                        <input type="file" id="file" (change)="handleFileInput($event.target.files)" style="display: none;">
+        
+                    </div>
+                </div>
+                
             </div>
-            <div class="option collapsible" [ngClass]="{'hide': !collapsePassword}">
+
+            
+            <div class="option card z-depth-1 collapsible mb-2" [ngClass]="{'hide': !collapsePassword}">
+                <div class="card-body">
+                    <div class="option-title">
+                        <span>Change Password</span>
+                        <span class="grey-text text-sm" *ngIf="changeInPassword != ''">{{changeInPassword}}</span>
+                    </div>
+                    <div class="option-content p-5">
+                        <input type="password" class="form-control form-control-sm mb-3" placeholder="Password" [(ngModel)]="password">
+                        <input type="password" class="form-control form-control-sm mb-3" placeholder="Confirm password" [(ngModel)]="cnfrmPass">
+                        <button class="btn btn-sm btn-block bg-dark text-white" (click)="changePassword()">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="option card z-depth-1" [ngClass]="{'hide': !collapseFileupload}">
+                <div class="card-body">
+                    <div class="option-title" >
+                        <span>File Upload</span>
+                        <span class="grey-text text-sm" *ngIf="changeInFileUpload != ''">{{changeInFileUpload}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="left-one option card z-depth-1">
+            <div class="card-body">
                 <div class="option-title">
-                    <span>Change Password</span>
-                    <span class="grey-text text-sm" *ngIf="changeInPassword != ''">{{changeInPassword}}</span>
+                    <span>Default Settings</span>
+                    <span class="grey-text" *ngIf="changeInUserDefaults != ''">{{changeInUserDefaults}}</span>
                 </div>
-                <div class="option-content p-5">
-                    <input type="password" class="form-control form-control-sm mb-3" placeholder="Password" [(ngModel)]="password">
-                    <input type="password" class="form-control form-control-sm mb-3" placeholder="Confirm password" [(ngModel)]="cnfrmPass">
-                    <button class="btn btn-sm btn-block bg-dark text-white" (click)="changePassword()">Submit</button>
-                </div>
-            </div>
-            <div class="option">
-                <div class="option-title" [ngClass]="{'hide': !collapseFileupload}">
-                    <span>File Upload</span>
-                    <span class="grey-text text-sm" *ngIf="changeInFileUpload != ''">{{changeInFileUpload}}</span>
+                <div class="option-content">
+                    <p class="pallete mb-1">Preferred language</p>
+                    <div class="sub-content mb-4">
+                        <button
+                        *ngFor="let in of languages; let i = index;"
+                        [ngClass]="{'bg-light': selectedLang == in}"
+                        (click) = "updateSelectedLang(i)"
+                         class="btn btn-sm border px-3 mr-3">{{in}}</button>
+                    </div>
+                    <p class="pallete mb-1">Favorite theme</p>
+                    <div class="sub-content mb-4">
+                        <button 
+                        *ngFor="let in of themes; let i = index;"
+                        [ngClass]="{'bg-light': selectedTheme == in}"
+                        (click) = "updateSelectedTheme(i)"
+                        class="btn btn-sm border px-3 mr-3">{{in}}</button>
+                    </div>
+                    <p class="pallete mb-1">Comfortable font</p>
+                    <div class="sub-content mb-4">
+                        <button 
+                        *ngFor="let in of fonts; let i = index;"
+                        [ngClass]="{'bg-light': selectedFont == in}"
+                        (click) = "updateSelectedFont(i)"
+                        class="btn btn-sm border px-3 mr-3">{{in}}</button>
+                    </div>
+                    <p class="pallete mb-1">Default Code</p>
+                    <textarea [(ngModel)]="defaultCode" cols="30" rows="10" class="form-control form-control-sm mb-2 bg-body" (change)="detectChangeinUserDefaults()"></textarea>
+    
+                    <div class="form-group d-flex justify-content-end mb-0">
+                        <button (click)="saveUserDefaults()"
+                        class="btn btn-sm bg-dark text-white px-3">Save</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="left-one option">
-            <div class="option-title">
-                <span>Default Settings</span>
-                <span class="grey-text" *ngIf="changeInUserDefaults != ''">{{changeInUserDefaults}}</span>
-            </div>
-            <div class="option-content">
-                <p class="pallete mb-1">Preferred language</p>
-                <div class="sub-content mb-4">
-                    <button
-                    *ngFor="let in of languages; let i = index;"
-                    [ngClass]="{'bg-light': selectedLang == in}"
-                    (click) = "updateSelectedLang(i)"
-                     class="btn btn-sm border px-3 mr-3">{{in}}</button>
+        <div class="left-two option card z-depth-1">
+            <div class="card-body">
+                <div class="option-title d-flex justify-content-between py-0 pr-0">
+                    <span>Repository</span>
+                    <button class="btn btn-sm border" (click)="basicModal.show(); addNewCode()"><i class="fas fa-plus"></i></button>
                 </div>
-                <p class="pallete mb-1">Favorite theme</p>
-                <div class="sub-content mb-4">
+                <div class="option-content">
                     <button 
-                    *ngFor="let in of themes; let i = index;"
-                    [ngClass]="{'bg-light': selectedTheme == in}"
-                    (click) = "updateSelectedTheme(i)"
-                    class="btn btn-sm border px-3 mr-3">{{in}}</button>
-                </div>
-                <p class="pallete mb-1">Comfortable font</p>
-                <div class="sub-content mb-4">
-                    <button 
-                    *ngFor="let in of fonts; let i = index;"
-                    [ngClass]="{'bg-light': selectedFont == in}"
-                    (click) = "updateSelectedFont(i)"
-                    class="btn btn-sm border px-3 mr-3">{{in}}</button>
-                </div>
-                <p class="pallete mb-1">Default Code</p>
-                <textarea [(ngModel)]="defaultCode" cols="30" rows="10" class="form-control form-control-sm mb-2 bg-body" (change)="detectChangeinUserDefaults()"></textarea>
-
-                <div class="form-group d-flex justify-content-end mb-0">
-                    <button (click)="saveUserDefaults()"
-                    class="btn btn-sm bg-dark text-white px-3">Save</button>
+                    *ngFor="let in of repositoryCodes; let i = index;"
+                    (click)="basicModal.show(); displayCodeInfo(i, false)"
+                    class="btn btn-sm border px-3 mr-2">{{in.title}}</button>
+    
                 </div>
             </div>
         </div>
-        <div class="left-two option">
-            <div class="option-title d-flex justify-content-between py-0">
-                <span>Repository</span>
-                <button class="btn btn-sm border"><i class="fas fa-plus"></i></button>
-            </div>
-            <div class="option-content">
-                <button 
-                *ngFor="let in of repositoryCodes; let i = index;"
-                (click)="basicModal.show(); displayCodeInfo(i, false)"
-                class="btn btn-sm border px-3 mr-2">{{in.title}}</button>
-
-            </div>
-        </div>
-        <div class="left-three option">
+        <div class="left-three option card z-depth-1">
+           <div class="card-body">
             <div class="option-title">
                 Shared Codes
             </div>
@@ -125,6 +142,7 @@
                 (click)="basicModal.show(); displayCodeInfo(i, true)"
                 class="btn btn-sm border px-3 mr-2">{{in.title}}</button>
             </div>
+           </div>
         </div>
     </div>
 </div>

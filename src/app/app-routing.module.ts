@@ -9,16 +9,18 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
+import { AuthGuard } from './auth.guard';
+import { HomeGuard } from './home.guard';
 
 
 const routes: Routes = [
   { path: 'welcome', component: LandingComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent,  },
+  { path: 'register', component: RegisterComponent, },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'nav', component: NavComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'profile', component: ProfileComponent},
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: "/welcome", pathMatch: 'full' }
 ];
 

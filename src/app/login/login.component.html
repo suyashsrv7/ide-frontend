@@ -14,18 +14,18 @@
             </mdb-card-title>
 
             <!-- Default form login -->
-            <form class="text-center px-4 py-5">
+            <div class="text-center px-4 py-5">
 
                 <p class="h4 mb-4">Sign in</p>
 
                 <!-- Email -->
-                <input type="text" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Username">
+                <input type="text" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Username" [(ngModel)]="username">
 
                 <!-- Password -->
-                <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
+                <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password" [(ngModel)]="password">
 
                 <!-- Sign in button -->
-                <button mdbBtn color="elegant" block="true" class="my-4" type="button" mdbWavesEffect>Sign in</button>
+                <button mdbBtn color="elegant" block="true" class="my-4" type="button" mdbWavesEffect (click)="login()">Sign in</button>
                 <p>
                     <a routerLink="/forgot-password">Forgot password?</a>
                 </p>
@@ -37,11 +37,11 @@
                     <a routerLink="/register">Register</a>
                 </p>
 
-            </form>
+            </div>
             <!-- Default form login -->
         </mdb-card-body>
     </mdb-card>
-    <div class="alert alert-dark" role="alert">
-        This is a dark alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+    <div class="alert alert-dark" role="alert" *ngIf="message != ''" style="font-size: small;">
+        {{message}}
     </div>
 </div>
