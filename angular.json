@@ -39,7 +39,13 @@
             ],
             "scripts": [
               "node_modules/chart.js/dist/Chart.js",
-              "node_modules/hammerjs/hammer.min.js"
+              "node_modules/hammerjs/hammer.min.js",
+              "./node_modules/ace-builds/src-min/ace.js",
+              "./node_modules/ace-builds/src-min/theme-eclipse.js",
+              "./node_modules/ace-builds/src-min/theme-idle_fingers.js",
+              "./node_modules/ace-builds/src-min/theme-monokai.js",
+              "./node_modules/ace-builds/src-min/theme-xcode.js",
+              "./node_modules/ace-builds/src-min/theme-twilight.js"
             ]
           },
           "configurations": {

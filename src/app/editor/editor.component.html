@@ -1,12 +1,13 @@
 <div class="settings-header">
     <ul class="settings settings-left">
         <li class="settings-item">
-            <select class="browser-default custom-select custom-select-sm">
+            <select class="browser-default custom-select custom-select-sm" [(ngModel)]="selectedLang" (change)="changeLanguage()">
                 <option selected>Lang</option>
-                <option value="1">C++</option>
-                <option value="2">Java</option>
-                <option value="3">Python 2.7</option>
-                <option value="4">Python 3.6</option>
+                <option value="C">C</option>
+                <option value="C++">C++</option>
+                <option value="Java">Java</option>
+                <option value="Python 2.7">Python 2.7</option>
+                <option value="Python 3,6">Python 3.6</option>
             </select>
         </li>
     </ul>
@@ -35,28 +36,29 @@
     <ul class="settings settings-right">
 
         <li class="settings-item">
-            <select class="browser-default custom-select custom-select-sm">
-                <option value="1">14px</option>
-                <option value="2">16px</option>
-                <option value="3">18px</option>
+            <select class="browser-default custom-select custom-select-sm" [(ngModel)]="selectedFont">
+                <option value="14px">14px</option>
+                <option value="16px">16px</option>
+                <option value="18px">18px</option>
             </select>
         </li>
         <li class="settings-item">
-            <select class="browser-default custom-select custom-select-sm">
+            <select class="browser-default custom-select custom-select-sm" [(ngModel)]="selectedTheme">
                 <option selected>Theme</option>
-                <option value="1">xcode</option>
-                <option value="2">twilight</option>
-                <option value="3">monokai</option>
-                <option value="4">idele-fingers</option>
+                <option value="xcode">xcode</option>
+                <option value="twilight">twilight</option>
+                <option value="monokai">monokai</option>
+                <option value="idle_fingers">idle_fingers</option>
+                <option value="ecipse">eclipse</option>
             </select>
         </li>
     </ul>
 </div>
 
-<div class="card">
-    <div class="card-body p-0">
-        <div ace-editor [(text)]="text" [mode]="'sql'" [theme]="'eclipse'" [options]="options" [readOnly]="false"
-            [autoUpdateContent]="true" [durationBeforeCallback]="1000" (textChanged)="onChange($event)"
-            style="min-height: 100%; width:100%; overflow: auto; font-family: 'Ubuntu Mono', monospace;"></div>
-    </div>
+<div style="max-height: 650px;">
+    <div ace-editor [(text)]="text" [mode]="selectedMode" [theme]="selectedTheme" [options]="options" [readOnly]="false"
+    [autoUpdateContent]="true" [durationBeforeCallback]="1000" (textChanged)="onChange($event)" [style.font-size]="selectedFont"
+    style="min-height: 650px; width:100%; overflow: auto; font-family: 'Ubuntu Mono', monospace;"></div>
+
 </div>
+

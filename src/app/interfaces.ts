@@ -37,3 +37,10 @@ export interface RegisterUser {
     password: string;
     email: string;
 }
+
+export interface TaskRequest {
+    language: string;
+    code: string;
+    inputs: Array<string>;
+    timeLimit: number;
+}
