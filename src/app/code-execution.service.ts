@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TaskRequest } from './interfaces';
 import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +12,15 @@ export class CodeExecutionService {
 
   language: string;
   code: string;
-  timeLimit: 3000;
+  timeLimit:any =  3000;
 
-  customInput: string;
+  customInput: string = "";
   customOutput: string;
   customStatus: number = 0;
   customStatusText: string;
   customTimeExec: any;
+
+  customRunSubject = new Subject<any>();
 
   inputs: Array<string> = [];
   outputs: Array<string> = [];
@@ -51,7 +54,20 @@ export class CodeExecutionService {
       timeLimit: this.timeLimit,
       inputs: inputArray
     } 
-    this.run(taskRequest);  
+    console.log(taskRequest);
+    this.run(taskRequest).subscribe((res: any) => {
+      // only one result
+      console.log(res);
+      let results = res.testResults[0];
+      let dErrorFlag = results.error;
+      let dContext = (results.error) ? results.errorContext : "Compiled Successfully" ;
+      let dTime = results.execTime;
+      let dOutput = (results.error) ? results.errorMsg : results.output;
+      this.customRunSubject.next({
+        dErrorFlag, dContext, dTime, dOutput
+      })
+    });  
+    return this.customRunSubject.asObservable();
   }
 
   runAllTests() {
@@ -61,14 +77,13 @@ export class CodeExecutionService {
       timeLimit: this.timeLimit,
       inputs: this.inputs
     } 
-    this.run(taskRequest);
-    
+    this.run(taskRequest).subscribe((res: any) => {
+      // total number of testcases
+    });
   }
 
   run(taskRequest: TaskRequest) {
-    this.http.post(`${this.rootUrl}/run`, taskRequest).subscribe((res: any) => {
-      console.log(res);
-    })
+    return this.http.post(`${this.rootUrl}/run`, taskRequest)
   }
 
   validator(out:string, ans:string) {
@@ -91,8 +106,15 @@ export class CodeExecutionService {
 
   validateTests() {
     for(let i=0; i<this.inputs.length; i++) {
+      if(this.validator(this.outputs[i], this.answers[i])) {
 
+      }
     }
+  }
+
+
+  scrape(url) {
+    return this.http.post("http://localhost:3000/fetch", {url})
   }
   
 }

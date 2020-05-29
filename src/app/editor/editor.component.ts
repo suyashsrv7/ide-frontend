@@ -7,6 +7,7 @@ import 'brace/theme/idle_fingers';
 import 'brace/mode/java';
 import 'brace/mode/python';
 import 'brace/mode/c_cpp';
+import { CodeExecutionService } from '../code-execution.service';
 
 
 @Component({
@@ -31,14 +32,22 @@ export class EditorComponent implements OnInit {
 
 
   
-  constructor() { }
+  constructor(private codeExec: CodeExecutionService) { }
 
   ngOnInit(): void {
     this.languages = ["C", "C++", "Java", "Python 2.7", "Python 3.6"];
     this.modes = ["c_cpp", "c_cpp", "java", "python", "python"];
     this.fonts = ["14px", "16px", "18px"];
     this.themes = ["xcode", "monokai", "twilight", "eclipse", "idle_fingers"];
+    this.codeExec.language = this.selectedLang;
+    this.handleJavaLanguage();
 
+  }
+
+  handleJavaLanguage() {
+    if(this.selectedLang == "Java") {
+      this.text = "// please name your class as srcFile" + this.text;
+    }
   }
 
   changeLanguage() {
@@ -49,10 +58,14 @@ export class EditorComponent implements OnInit {
       }
     })
 
+    this.codeExec.language = this.selectedLang;
+    this.handleJavaLanguage();
+
   }
 
   onChange(code) {
     console.log("new code", code);
+    this.codeExec.code = code;
   }
 
 
