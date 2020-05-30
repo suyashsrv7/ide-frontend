@@ -17,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { EditorComponent } from './editor/editor.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HttpInterceptorService } from './http-interceptor.service';
+import { MathjaxComponent } from './mathjax/mathjax.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { HttpInterceptorService } from './http-interceptor.service';
     HomeComponent,
     EditorComponent,
     ProfileComponent,
+    MathjaxComponent,
 
   ],
   imports: [

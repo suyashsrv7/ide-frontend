@@ -1,18 +1,24 @@
 import { Component, OnInit, ViewChildren, ElementRef, ViewChild } from '@angular/core';
 import { CollapseComponent } from 'angular-bootstrap-md';
 import { CodeExecutionService } from '../code-execution.service';
+import { MathjaxComponent } from '../mathjax/mathjax.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss', './codeforces.scss']
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   @ViewChild('wrapper') private wrapper: any;
+  @ViewChild(MathjaxComponent) childView: MathjaxComponent;
+  mathContent = `Loading...`;
+  fetching: string = "";
+  fetched: boolean = false;
+  reset: boolean = true;
 
   collapsed: boolean;
 
-  dErrorFlag:boolean;
+  dErrorFlag: boolean;
   dContext: string = "";
   dTime: any = "";
   dOutput: string = "";
@@ -41,9 +47,45 @@ export class HomeComponent implements OnInit {
   }
 
   fetchProblem() {
-    this.codeExec.scrape(this.url).subscribe((res:any) => {
-      this.problemStatement = res.problemStatement
+    this.reset = false;
+    this.fetching = "Fetching...";
+    this.codeExec.scrape(this.url).subscribe((res: any) => {
+      console.log(res);
+      if(res.error) {
+        this.fetching = "Connection failure!";
+        setTimeout(() => {
+          this.reFetch();
+        })
+      } else {
+        this.mathContent = res.problemStatement;
+        this.resolveTestcases(res.sampleTests);
+        this.fetching = "";
+        this.fetched = true;
+      }
+     
+    },
+    err => {
+      this.fetching = "Connection failure!";
+      setTimeout(() => {
+        this.reFetch();
+      }, 2000);
+      return;
     })
   }
 
+
+  reFetch() {
+    this.reset = true;
+    this.fetched = false;
+    this.fetching = ""; 
+    this.mathContent = "Loading...";
+  }
+
+  resolveTestcases(sampleTests) {
+    console.log(sampleTests);
+    for(let i=0; i<sampleTests.length; i++) {
+      console.log(sampleTests[i]);
+      this.codeExec.addNewTestCase(sampleTests[i].input, sampleTests[i].answer);
+    }
+  }
 }
