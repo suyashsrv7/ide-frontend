@@ -15,7 +15,11 @@
             <div *ngIf="dOutput != ''">
                 <div class="customio psuedo-black mt-3 mb-3 pr-1 py-1 text-sm">
                     <span>Output:</span>
+                   <div>
                     <span> Time: {{dTime}} s</span>
+                    <span class="px-2">|</span>
+                    <span (click)="customToTest()">Add as testcase</span>
+                   </div>
                 </div>
                 <p class="px-2 py-1" [ngClass]="{'success': !dErrorFlag, 'error': dErrorFlag}"
                     style="font-size: 0.9rem;">{{dContext}}</p>
@@ -27,9 +31,9 @@
         <div class="right-container">
             <div class="option card">
                 <div class="card-body">
-                    <div class="option-title d-flex justify-content-between">
+                    <div class="option-title d-flex justify-content-between pr-1">
                         <span>Fetch Problem </span>
-                        <a (click)="reFetch()"><i class="fas fa-sync-alt"></i></a>
+                        <a (click)="reFetch()" title="Reset problem"><i class="fas fa-sync-alt"></i></a>
                     </div>
                     <div class="input-group mb-2" *ngIf="reset">
                         <input type="text" class="form-control form-control-sm" placeholder="Problem url"
@@ -61,24 +65,28 @@
             <hr>
             <div class="option card">
                 <div class="card-body">
-                    <div class="option-title">
-                        Testcases
+                    <div class="option-title d-flex justify-content-between align-center pr-1">
+                        <span>Testcases</span>
+                        <span *ngIf="codeExec.testCases.length > 0" style="cursor: pointer;" class="pallete" (click)="runAllTests()" title="Run all">
+                            <i class="fas fa-play"></i>
+                        </span>
                     </div>
                     <p class="pallete text-center" *ngIf="codeExec.testCases.length == 0">
                         No testcase available. Please add using the fetch method or from custom input.
                     </p>
-                    <div class="testbox">
-                        <div class="pallete test" *ngFor="let in of codeExec.testCases; let i = index;">
+                    <div class="testbox" >
+                        <div class="pallete test" *ngFor="let in of codeExec.testCases; let i = index; trackBy: trackByMethod">
                             <span (click)="testView(i)">Test#{{i}}</span>
                             <span>
                                 <i [ngClass]="{
                                 'fa-question-circle': in.status == 0,
-                                'fa-check-circle': in.status == 1, 'green-teint': in.status == 1,
-                                'fa-einclamation-circle': in.status == 3, 'wa': in.status == 3 || in.status == 2,
-                                'fa-times-circle': in.status == 2
+                                'fa-check-circle': in.status == 1, 'green-text': in.status == 1,
+                                'fa-exclamation-circle': in.status == 3, 'wa': in.status == 2,
+                                'fa-times-circle': in.status == 2, 'ce': in.status == 3
                             }" class="fas"></i>
                             </span>
                         </div>
+                        
                         <!-- <div class="pallete test"><span>Test#2</span> <span><i
                                     class="fas fa-check-circle green-text"></i></span></div>
                         <div class="pallete test"><span>Test#3</span><span><i class="fas fa-times-circle wa"></i></span>
@@ -96,20 +104,26 @@
             <hr>
             <div class="option card" *ngIf="testViewCollapase">
                 <div class="card-body">
-                    <div class="option-title">
-                        TestView
+                    <div class="option-title  d-flex justify-content-between pr-1">
+                        <span>
+                            Testview
+                        </span>
+                        <span (click) = "deleteTest()" style="cursor: pointer;" title="Delete this testcase">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
+
                     </div>
                     <p class="mb-0 d-flex justify-content-between" style="font-weight: 400;">
 
-                        <span>Test #1</span>
+                        <span>Test #{{vId}}</span>
                         <span>
                             <span>{{vStatusText}}</span>
                             <span>
                                 <i [ngClass]="{
-                                'fa-question-circle': vStatus == 0, 'pallete': vStatus == 0,
+                                'fa-question-circle': vStatus == 0,
                                 'fa-check-circle': vStatus == 1, 'green-text': vStatus == 1,
-                                'fa-einclamation-circle': vStatus == 3, 'wa': vStatus == 3 || vStatus == 2,
-                                'fa-times-circle': vStatus == 2
+                                'fa-exclamation-circle': vStatus == 3, 'wa': vStatus == 2,
+                                'fa-times-circle': vStatus == 2, 'ce': vStatus == 3
                             }" class="fas"></i>
                             </span>
                         </span>
@@ -137,6 +151,10 @@
                             <!-- <textarea class="form-control form-control-sm" rows="19" [(ngModel)]="vOutput" readonly></textarea> -->
                         </div>
                     </div>
+                    <p class="mb-2 d-flex justify-content-end"  *ngIf="vOutput != ''">
+                        <span>Exec time: {{dTime}}s</span>
+                    </p>
+                    
                 </div>
             </div>
         </div>

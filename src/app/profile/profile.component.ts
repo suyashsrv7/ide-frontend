@@ -78,7 +78,7 @@ export class ProfileComponent implements OnInit {
 
   resolveImageUrl(data, split) {
     if(split) {
-      data = data.split(":")[1].slice(1);
+      data = data.msg.split(":")[1].slice(1);
     }
     let url = "http://localhost:8080/" + data;
     console.log(url);

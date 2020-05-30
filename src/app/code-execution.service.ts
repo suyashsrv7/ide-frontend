@@ -34,6 +34,7 @@ export class CodeExecutionService {
 
   addNewTestCase(inp: string, ans: string) {
     this.testCases.push({
+      id: this.randomHash(),
       input: inp,
       output: "",
       status: 0,
@@ -68,18 +69,25 @@ export class CodeExecutionService {
     return this.customRunSubject.asObservable();
   }
 
-  // runAllTests() {
-  //   let taskRequest:TaskRequest = {
-  //     language: this.language,
-  //     code: this.code,
-  //     timeLimit: this.timeLimit,
-  //     inputs: this.inputs
-  //   } 
-  //   this.run(taskRequest).subscribe((res: any) => {
-  //     // total number of testcases
-  //   });
-  // }
+  runAllTests() {
+    let inpArr = [];
+    this.testCases.forEach((element, idx) => {
+      inpArr.push(element.input);
+    })
+    let taskRequest:TaskRequest = {
+      language: this.language,
+      code: this.code,
+      timeLimit: this.timeLimit,
+      inputs: inpArr
+    } 
+    return this.run(taskRequest);
+      // total number of testcases
+  }
 
+
+  randomHash() {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  }
   run(taskRequest: TaskRequest) {
     return this.http.post(`${this.rootUrl}/run`, taskRequest)
   }

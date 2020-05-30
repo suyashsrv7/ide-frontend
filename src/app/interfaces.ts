@@ -46,6 +46,7 @@ export interface TaskRequest {
 }
 
 export interface Testcase {
+    id: string;
     input: string;
     output: string;
     answer: string;

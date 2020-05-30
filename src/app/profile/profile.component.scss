@@ -31,7 +31,7 @@
 
 .option {
     width: 100%;
-   
+    box-shadow: 0 0 2px 1px gainsboro !important;
     input, textarea, select {
         background-color: #fafafa;
         &:focus {

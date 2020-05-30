@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
   vAnswer: string;
   vStatus: number;
   vStatusText: string;
+  vId: number;
 
   problemStatement: any;
   url: any;
@@ -86,7 +87,9 @@ export class HomeComponent implements OnInit {
     this.fetched = false;
     this.fetching = ""; 
     this.mathContent = "Loading...";
-    this.url = 0;
+    this.url = "";
+    let len = this.codeExec.testCases.length
+    this.codeExec.testCases.splice(0, len);
   }
 
   resolveTestcases(sampleTests) {
@@ -107,5 +110,38 @@ export class HomeComponent implements OnInit {
     this.vAnswer = vTest.answer;
     this.vStatus = vTest.status;
     this.vStatusText = vTest.statusText;
+    this.vId = idx; 
+  }
+
+  deleteTest() {
+    this.codeExec.testCases.splice(this.vId, 1);
+    console.log(this.codeExec.testCases);
+    if(this.codeExec.testCases.length == 0) {
+      this.testViewCollapase = false;
+    }
+    else {
+      this.testView(0);
+    }
+  }
+
+  customToTest() {
+    this.codeExec.addNewTestCase(this.codeExec.customInput, this.dOutput);
+  }
+
+  runAllTests() {
+    this.codeExec.runAllTests().subscribe((res: any) => {
+      let testRes = res.testResults;
+      for(let i=0; i<testRes.length; i++) {
+        this.codeExec.testCases[i].status = (testRes[i].error) ? 3 : 1;
+        this.codeExec.testCases[i].statusText = (testRes[i].error ) ? testRes[i].errorContext : "Compiled";
+        this.codeExec.testCases[i].output = (testRes[i].error) ? testRes[i].errorMsg : testRes[i].output;
+        this.codeExec.testCases[i].timeExec = testRes[i].execTime;
+      }
+      console.log(this.codeExec.testCases);
+    })
+  }
+
+  trackByMethod(index:number, el:any): number {
+    return el.id;
   }
 }
