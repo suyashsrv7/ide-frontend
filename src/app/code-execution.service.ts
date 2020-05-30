@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TaskRequest } from './interfaces';
+import { TaskRequest, Testcase } from './interfaces';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 
@@ -22,12 +22,7 @@ export class CodeExecutionService {
 
   customRunSubject = new Subject<any>();
 
-  inputs: Array<string> = [];
-  outputs: Array<string> = [];
-  answers: Array<string> = [];
-  status: Array<number> = [];
-  statusText: Array<string> = [];
-  timeExec: Array<any> = [];
+  testCases: Array<Testcase> = [];
 
   // code status 
   // 0 -> not evaluated 
@@ -38,11 +33,14 @@ export class CodeExecutionService {
   constructor(private http: HttpClient) { }
 
   addNewTestCase(inp: string, ans: string) {
-    this.inputs.push(inp);
-    this.answers.push(ans);
-    this.outputs.push("");
-    this.status.push(0);
-    this.timeExec.push(0);
+    this.testCases.push({
+      input: inp,
+      output: "",
+      status: 0,
+      timeExec: 0,
+      statusText: "Not evaluated",
+      answer: ans
+    });
   }
 
   customRun() {
@@ -70,17 +68,17 @@ export class CodeExecutionService {
     return this.customRunSubject.asObservable();
   }
 
-  runAllTests() {
-    let taskRequest:TaskRequest = {
-      language: this.language,
-      code: this.code,
-      timeLimit: this.timeLimit,
-      inputs: this.inputs
-    } 
-    this.run(taskRequest).subscribe((res: any) => {
-      // total number of testcases
-    });
-  }
+  // runAllTests() {
+  //   let taskRequest:TaskRequest = {
+  //     language: this.language,
+  //     code: this.code,
+  //     timeLimit: this.timeLimit,
+  //     inputs: this.inputs
+  //   } 
+  //   this.run(taskRequest).subscribe((res: any) => {
+  //     // total number of testcases
+  //   });
+  // }
 
   run(taskRequest: TaskRequest) {
     return this.http.post(`${this.rootUrl}/run`, taskRequest)
@@ -104,13 +102,13 @@ export class CodeExecutionService {
     }
   }
 
-  validateTests() {
-    for(let i=0; i<this.inputs.length; i++) {
-      if(this.validator(this.outputs[i], this.answers[i])) {
+  // validateTests() {
+  //   for(let i=0; i<this.inputs.length; i++) {
+  //     if(this.validator(this.outputs[i], this.answers[i])) {
 
-      }
-    }
-  }
+  //     }
+  //   }
+  // }
 
 
   scrape(url) {

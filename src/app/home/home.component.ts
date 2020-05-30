@@ -23,6 +23,13 @@ export class HomeComponent implements OnInit {
   dTime: any = "";
   dOutput: string = "";
 
+  testViewCollapase: boolean = false;
+  vInput: string;
+  vOutput: string;
+  vAnswer: string;
+  vStatus: number;
+  vStatusText: string;
+
   problemStatement: any;
   url: any;
 
@@ -79,6 +86,7 @@ export class HomeComponent implements OnInit {
     this.fetched = false;
     this.fetching = ""; 
     this.mathContent = "Loading...";
+    this.url = 0;
   }
 
   resolveTestcases(sampleTests) {
@@ -87,5 +95,17 @@ export class HomeComponent implements OnInit {
       console.log(sampleTests[i]);
       this.codeExec.addNewTestCase(sampleTests[i].input, sampleTests[i].answer);
     }
+
+    console.log(this.codeExec.testCases);
+  }
+
+  testView(idx) {
+    this.testViewCollapase = true;
+    let vTest = this.codeExec.testCases[idx];
+    this.vInput = vTest.input;
+    this.vOutput = vTest.output;
+    this.vAnswer = vTest.answer;
+    this.vStatus = vTest.status;
+    this.vStatusText = vTest.statusText;
   }
 }

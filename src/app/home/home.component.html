@@ -32,9 +32,9 @@
                         <a (click)="reFetch()"><i class="fas fa-sync-alt"></i></a>
                     </div>
                     <div class="input-group mb-2" *ngIf="reset">
-                        <input  type="text" class="form-control form-control-sm" placeholder="Problem url" [(ngModel)] = "url"
-                            aria-label="Recipient's username" aria-describedby="basic-addon2">
-                            
+                        <input type="text" class="form-control form-control-sm" placeholder="Problem url"
+                            [(ngModel)]="url" aria-label="Recipient's username" aria-describedby="basic-addon2">
+
                         <div class="input-group-append">
                             <button class="btn btn-sm bg-dark text-white" (click)="fetchProblem()">Go</button>
                         </div>
@@ -50,8 +50,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center" >
-                        <button *ngIf="fetched" class="btn btn-sm border btn-block px-3 pallete" (click)="basicModal.show();">
+                    <div class="d-flex justify-content-center">
+                        <button *ngIf="fetched" class="btn btn-sm border btn-block px-3 pallete"
+                            (click)="basicModal.show();">
                             Question
                         </button>
                     </div>
@@ -63,13 +64,22 @@
                     <div class="option-title">
                         Testcases
                     </div>
-                    <p class="pallete text-center">
+                    <p class="pallete text-center" *ngIf="codeExec.testCases.length == 0">
                         No testcase available. Please add using the fetch method or from custom input.
                     </p>
                     <div class="testbox">
-                        <div class="pallete test"><span>Test#1</span><span><i
-                                    class="fas fa-check-circle green-text"></i></span> </div>
-                        <div class="pallete test"><span>Test#2</span> <span><i
+                        <div class="pallete test" *ngFor="let in of codeExec.testCases; let i = index;">
+                            <span (click)="testView(i)">Test#{{i}}</span>
+                            <span>
+                                <i [ngClass]="{
+                                'fa-question-circle': in.status == 0,
+                                'fa-check-circle': in.status == 1, 'green-teint': in.status == 1,
+                                'fa-einclamation-circle': in.status == 3, 'wa': in.status == 3 || in.status == 2,
+                                'fa-times-circle': in.status == 2
+                            }" class="fas"></i>
+                            </span>
+                        </div>
+                        <!-- <div class="pallete test"><span>Test#2</span> <span><i
                                     class="fas fa-check-circle green-text"></i></span></div>
                         <div class="pallete test"><span>Test#3</span><span><i class="fas fa-times-circle wa"></i></span>
                         </div>
@@ -79,54 +89,52 @@
                         </div>
                         <div class="pallete test"><span>Test#6</span><span><i
                                     class="fas fa-exclamation-circle ce"></i></span></div>
-                        <div class="pallete test"><span>Test#10</span><span><i class="fas fa-clock ce"></i></span></div>
+                        <div class="pallete test"><span>Test#10</span><span><i class="fas fa-clock ce"></i></span></div> -->
                     </div>
                 </div>
             </div>
             <hr>
-            <div class="option card">
+            <div class="option card" *ngIf="testViewCollapase">
                 <div class="card-body">
                     <div class="option-title">
                         TestView
                     </div>
+                    <p class="mb-0 d-flex justify-content-between" style="font-weight: 400;">
+
+                        <span>Test #1</span>
+                        <span>
+                            <span>{{vStatusText}}</span>
+                            <span>
+                                <i [ngClass]="{
+                                'fa-question-circle': vStatus == 0, 'pallete': vStatus == 0,
+                                'fa-check-circle': vStatus == 1, 'green-text': vStatus == 1,
+                                'fa-einclamation-circle': vStatus == 3, 'wa': vStatus == 3 || vStatus == 2,
+                                'fa-times-circle': vStatus == 2
+                            }" class="fas"></i>
+                            </span>
+                        </span>
+
+                    </p>
                     <div class="testviewbox">
                         <div class="testviewbox-title">
                             INPUT
                         </div>
                         <div class="testviewbox-content">
-                            <p class="line">Hello world</p>
-                            <p class="line">Hello world</p>
-                            <p class="line">Hello world</p>
-                            <p class="line">Hello world</p>
-                            <p class="line"></p>
-                            <p class="line"></p>
+                            <pre class="mb-0">{{vInput}}</pre>
                         </div>
                         <div class="testviewbox-title">
                             ANSWER
                         </div>
                         <div class="testviewbox-content">
-                            <!-- <p class="line line-ac">Hello world Hello world Hello world Hello world Hello world Hello world</p> -->
-                            <p class="line line-ac">Hello world</p>
-                            <p class="line line-ac">Hello world</p>
-                            <p class="line line-ac"></p>
-                            <p class="line line-ac"></p>
-                            <p class="line line-ac">Hello world</p>
-                            <p class="line line-ac">Hello world</p>
-                            <p class="line line-ac">Hello world</p>
-                            <p class="line line-ac">Hello world</p>
-                            <p class="line line-ac"></p>
-                            <p class="line line-ac"></p>
+                            <pre class="mb-0">{{vAnswer}}</pre>
+                            <!-- <textarea class="form-control form-control-sm" rows="10" [(ngModel)]="vAnswer" readonly></textarea> -->
                         </div>
-                        <div class="testviewbox-title">
+                        <div class="testviewbox-title" *ngIf="vOutput != ''">
                             OUTPUT
                         </div>
-                        <div class="testviewbox-content">
-                            <p class="line line-wa">Hello world</p>
-                            <p class="line">Hello world</p>
-                            <p class="line line-wa">Hello world</p>
-                            <p class="line">Hello world</p>
-                            <p class="line"></p>
-                            <p class="line"></p>
+                        <div class="testviewbox-content" *ngIf="vOutput != ''">
+                            <pre class="mb-0">{{vOutput}}</pre>
+                            <!-- <textarea class="form-control form-control-sm" rows="19" [(ngModel)]="vOutput" readonly></textarea> -->
                         </div>
                     </div>
                 </div>
@@ -144,3 +152,11 @@
         </div>
     </div>
 </div>
+
+<!-- 
+[ngClass]="{
+    'fa-question-circle': x.status == 0,
+    'fa-check-circle': x.status == 1, 'green-text': x.status == 1,
+    'fa-exclamation-circle': x.status == 3, 'wa': x.status == 3 || x.status == 2,
+    'fa-times-circle': x.status == 2
+}" -->

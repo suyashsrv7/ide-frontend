@@ -44,3 +44,12 @@ export interface TaskRequest {
     inputs: Array<string>;
     timeLimit: number;
 }
+
+export interface Testcase {
+    input: string;
+    output: string;
+    answer: string;
+    status: number;
+    statusText: string;
+    timeExec: any;
+}
