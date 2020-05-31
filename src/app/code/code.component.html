@@ -1,0 +1,47 @@
+<app-nav></app-nav>
+<div class="wrapper-container">
+    <div class="wrapper">
+       <div class="card codearea">
+           <div class="card-body p-0">
+            <div ace-editor [(text)]="text" [mode]="'c_cpp'" [theme]="'xcode'" [options]="options" [readOnly]="true"
+            style="min-height: 800px; width:100%; overflow: auto; font-family: 'Ubuntu Mono', monospace;"></div>
+           </div>
+       </div>
+       <div class="codeinfo">
+           <div *ngIf="notFound" class="text-center">
+            <p class="d-flex justify-content-center" style="align-items: center; flex-direction: column; font-size: 2.5rem">
+                <span>Code Not Found</span>
+                <span><i class="far fa-frown"></i></span>
+            </p>
+           </div>
+           <div *ngIf="!notFound">
+            <p>
+                <span>Title:</span>
+                <span>{{title}}</span>
+            </p>
+            <p>
+                <span>Author:</span>
+                <span>{{author}}</span>
+            </p>
+            <p>
+                <span>Language:</span>
+                <span>{{language}}</span>
+            </p>
+            <p>
+                <span>Copy link:</span>
+                <span (click)="copyLink()"><i class="fas fa-paperclip"></i></span>
+            </p>
+           </div>
+       </div>
+       <div class="codefooter">
+            <p class="mb-1">
+                &copy; 2020
+            </p>
+            <div class="brand">
+                <img src="../../assets/images/brand.svg" alt="" height="2rem" class="brand-logo">
+                <span class="brand-name">CodeArena</span>
+            </div>
+       </div>
+    </div>
+
+</div>

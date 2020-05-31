@@ -126,5 +126,9 @@ export class CodeExecutionService {
   scrape(url) {
     return this.http.post("http://localhost:3000/fetch", {url})
   }
+
+  getCode(codeId) {
+    return this.http.get(`${this.rootUrl}/get-code?codeId=${codeId}`);
+  }
   
 }

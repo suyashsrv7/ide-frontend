@@ -1,0 +1,60 @@
+
+.wrapper-container {
+    height: max-content;
+    overflow-y: auto;
+    overflow-x: hidden !important;
+    background-color: #FAFAFA;
+}
+
+.wrapper {
+    width: 70%;
+    margin: 3rem auto;
+    display: grid;
+    grid-template-columns: 65% 35%;
+    grid-template-rows: 90% 10%;
+    grid-template-areas: "codearea codeinfo" "codefooter codefooter";
+    gap: 2rem;
+}
+
+.codearea {
+    grid-area: codearea;
+    max-height: 800px;
+    overflow: auto;
+    &::-webkit-scrollbar {
+        width: 0 !important;
+    }
+}
+
+.codeinfo {
+    grid-area: codeinfo;
+    p {
+        font-weight: 400;
+        color: grey;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem !important;
+    }
+}
+
+.codefooter {
+    grid-area: codefooter;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.brand {
+    grid-area: brand;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.brand-logo {
+    height: 1rem;
+}
+
+.brand-name {
+    font-size: 1.1rem;
+    padding: 0 0.5rem;
+}   

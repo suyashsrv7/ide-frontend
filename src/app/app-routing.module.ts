@@ -11,16 +11,18 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './auth.guard';
 import { HomeGuard } from './home.guard';
+import { CodeComponent } from './code/code.component';
 
 
 const routes: Routes = [
   { path: 'welcome', component: LandingComponent },
-  { path: 'login', component: LoginComponent,  },
+  { path: 'login', component: LoginComponent, },
   { path: 'register', component: RegisterComponent, },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'nav', component: NavComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'code/:id', component: CodeComponent },
   { path: '', redirectTo: "/welcome", pathMatch: 'full' }
 ];
 

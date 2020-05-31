@@ -18,6 +18,7 @@ import { EditorComponent } from './editor/editor.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HttpInterceptorService } from './http-interceptor.service';
 import { MathjaxComponent } from './mathjax/mathjax.component';
+import { CodeComponent } from './code/code.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { MathjaxComponent } from './mathjax/mathjax.component';
     EditorComponent,
     ProfileComponent,
     MathjaxComponent,
+    CodeComponent,
 
   ],
   imports: [
