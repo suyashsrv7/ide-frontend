@@ -2,7 +2,9 @@
     <app-nav></app-nav>
     <div class="wrapper">
         <div class="left-container">
-            <app-editor></app-editor>
+            <!-- <div style="overflow: auto; max-height: 650px;" class="editor-container"> -->
+                <app-editor></app-editor>
+            <!-- </div> -->
             <div class="customio">
                 <span (click)="toggleCollapse()">Test against custom input <i class="fas"
                         [ngClass]="{'fa-chevron-down': !collapsed, 'fa-chevron-up': collapsed}"></i></span>
@@ -151,8 +153,9 @@
                             <!-- <textarea class="form-control form-control-sm" rows="19" [(ngModel)]="vOutput" readonly></textarea> -->
                         </div>
                     </div>
-                    <p class="mb-2 d-flex justify-content-end"  *ngIf="vOutput != ''">
-                        <span>Exec time: {{dTime}}s</span>
+                    <p class="mb-2 d-flex justify-content-between" style="font-weight: 400;"  *ngIf="vOutput != ''">
+                        <span>{{vVerdict}}</span>
+                        <span>time:{{vTime}}s</span>
                     </p>
                     
                 </div>

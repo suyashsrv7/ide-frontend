@@ -1,4 +1,13 @@
 
+.editor-container {
+    max-height: 650px; 
+    overflow: auto;
+}
+.editor-container::-webkit-scrollbar {
+    width: 0 !important ;
+    display: none;
+}
+
 .card {
     background-color: #fafafa;
     height: 650px;

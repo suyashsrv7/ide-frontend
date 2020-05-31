@@ -40,7 +40,8 @@ export class CodeExecutionService {
       status: 0,
       timeExec: 0,
       statusText: "Not evaluated",
-      answer: ans
+      answer: ans,
+      verdict: ""
     });
   }
 
@@ -49,7 +50,7 @@ export class CodeExecutionService {
     inputArray.push(this.customInput);
     let taskRequest:TaskRequest = {
       language: this.language,
-      code: this.code,
+      code: this.code.trim(),
       timeLimit: this.timeLimit,
       inputs: inputArray
     } 
@@ -73,10 +74,13 @@ export class CodeExecutionService {
     let inpArr = [];
     this.testCases.forEach((element, idx) => {
       inpArr.push(element.input);
+      element.status = 0;
+      element.statusText = "Not evaluated";
+      element.verdict = "";
     })
     let taskRequest:TaskRequest = {
       language: this.language,
-      code: this.code,
+      code: this.code.trim(),
       timeLimit: this.timeLimit,
       inputs: inpArr
     } 

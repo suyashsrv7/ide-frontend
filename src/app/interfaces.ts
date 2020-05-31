@@ -53,4 +53,5 @@ export interface Testcase {
     status: number;
     statusText: string;
     timeExec: any;
+    verdict: string;
 }
