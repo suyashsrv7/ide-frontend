@@ -1,7 +1,8 @@
 <div class="settings-header">
     <ul class="settings settings-left">
         <li class="settings-item">
-            <select class="browser-default custom-select custom-select-sm" [(ngModel)]="selectedLang" (change)="changeLanguage()">
+            <select class="browser-default custom-select custom-select-sm" [(ngModel)]="selectedLang"
+                (change)="changeLanguage()">
                 <option selected>Lang</option>
                 <option value="C">C</option>
                 <option value="C++">C++</option>
@@ -13,22 +14,22 @@
     </ul>
     <ul class="settings settings-middle">
         <li class="settings-item">
-            <button type="button" class="btn btn-sm waves-effect btn-icon ">
+            <button type="button" class="btn btn-sm waves-effect btn-icon " (click)="optionModal.show()">
                 <i class="fas fa-cloud icon"></i>
             </button>
         </li>
         <li class="settings-item">
-            <button type="button" class="btn btn-sm waves-effect btn-icon ">
+            <button type="button" class="btn btn-sm waves-effect btn-icon " (click)="initShare(); shareModal.show()">
                 <i class="fas fa-share-alt icon"></i>
             </button>
         </li>
         <li class="settings-item">
-            <button type="button" class="btn btn-sm waves-effect btn-icon ">
+            <button type="button" class="btn btn-sm waves-effect btn-icon " (click)="copyCode()">
                 <i class="fas fa-clone icon"></i>
             </button>
         </li>
         <li class="settings-item">
-            <button type="button" class="btn btn-sm waves-effect btn-icon ">
+            <button type="button" class="btn btn-sm waves-effect btn-icon " (click)="resetCode()">
                 <i class="fas fa-sync-alt icon"></i>
             </button>
         </li>
@@ -54,11 +55,43 @@
         </li>
     </ul>
 </div>
-
-<div style="" class="editor-container">
-    <div ace-editor [(text)]="text" [mode]="selectedMode" [theme]="selectedTheme" [options]="options" [readOnly]="false"
-    [autoUpdateContent]="true" [durationBeforeCallback]="1000" (textChanged)="onChange($event)" [style.font-size]="selectedFont"
-    style="min-height: 650px; width:100%; overflow: auto; font-family: 'Ubuntu Mono', monospace;"></div>
-
+<div mdbModal #optionModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header py-2 px-3">Click on aliases to include codes in editor</div>
+            <div class="modal-body bg-body p-3 repo-container">
+                <div *ngFor="let op of sampleArray; let i = index;" class="repo" (click) = "includeItem(i)">
+                    <span [ngClass]="{'ce': op.isIncluded}">#{{op.title}}</span>
+                     
+                </div>
+               
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm bg-dark text-white" (click)="resolveRepoCodes(); optionModal.hide()"> Resolve </button>
+            </div>
+        </div>
+    </div>
 </div>
 
+<div mdbModal #shareModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header py-2 px-3">Give a name to your code and save</div>
+            <div class="modal-body bg-body px-5 py-2 repo-container">
+                <input type="text" class="form-control form-control-sm mb-2" [(ngModel)]="sharename">
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="link" readonly>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm bg-dark text-white" (click)="saveSharable(); shareModal.hide()"> Save </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="editor-container">
+    <div ace-editor [(text)]="text" [mode]="selectedMode" [theme]="selectedTheme" [options]="options" [readOnly]="false"
+        [autoUpdateContent]="true" [durationBeforeCallback]="1000" (textChanged)="onChange($event)"
+        [style.font-size]="selectedFont"
+        style="min-height: 650px; width:100%; overflow: auto; font-family: 'Ubuntu Mono', monospace;"></div>
+</div>

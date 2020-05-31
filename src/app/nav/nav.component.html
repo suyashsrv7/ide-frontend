@@ -16,16 +16,16 @@
 
             <!-- Links -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item" *ngIf="!auth.isLoggedIn()">
+                <li class="nav-item" *ngIf="!auth.isLoggedIn()" routerLink="/login">
                     <a class="nav-link waves-light" mdbWavesEffect>Login</a>
                 </li>
-                <li class="nav-item" *ngIf="!auth.isLoggedIn()">
+                <li class="nav-item" *ngIf="!auth.isLoggedIn()" routerLink="/register">
                     <a class="nav-link waves-light" mdbWavesEffect>Register</a>
                 </li>
-                <li class="nav-item active" *ngIf="auth.isLoggedIn()">
+                <li class="nav-item active" *ngIf="auth.isLoggedIn()" routerLink="/home">
                     <a class="nav-link waves-light" mdbWavesEffect>Home<span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item" *ngIf="auth.isLoggedIn()">
+                <li class="nav-item" *ngIf="auth.isLoggedIn()" routerLink="/profile">
                     <a class="nav-link waves-light" mdbWavesEffect>Profile</a>
                 </li>
                 <li class="nav-item" *ngIf="auth.isLoggedIn()">

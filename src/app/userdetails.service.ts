@@ -109,6 +109,7 @@ export class UserdetailsService {
       this.sharedCodes = this.userCodes.filter(userCode => {
         return (userCode.type == 0);
       });
+      this.userDefaults = res.userDefault;
       this.userInfo.next({
         user: {
           id: res.id,

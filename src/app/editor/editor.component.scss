@@ -82,4 +82,27 @@
     color: dimgray;
 }
 
+.repo-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+    border: 1px solid gainsboro;
+    max-height: 150px;
+}
+
+.repo {
+    font-size: 0.9rem;
+    flex: 4;
+    flex-basis: 25%;
+
+    cursor: pointer;
+    &:last-child {
+        flex-shrink: auto;
+    }
+} 
+
+.ce {
+    color: #ff6f00;
+}
 
