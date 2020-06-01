@@ -6,8 +6,12 @@
                 <app-editor></app-editor>
             <!-- </div> -->
             <div class="customio">
-                <span (click)="toggleCollapse()">Test against custom input <i class="fas"
+                <div>
+                    <span (click)="toggleCollapse()">Test against custom input <i class="fas"
                         [ngClass]="{'fa-chevron-down': !collapsed, 'fa-chevron-up': collapsed}"></i></span>
+                        <span class="ml-5">{{compiling}}</span>
+                </div>
+               
                 <button class="btn btn-sm bg-dark text-white" (click)="customRun()">Compile & Run</button>
 
             </div>
@@ -16,7 +20,11 @@
                 [ngClass]=" {'hide':!collapsed}" [(ngModel)]="codeExec.customInput"></textarea>
             <div *ngIf="dOutput != ''">
                 <div class="customio psuedo-black mt-3 mb-3 pr-1 py-1 text-sm">
-                    <span>Output:</span>
+                    <div>
+                        <span>Output:</span>
+                        
+                    </div>
+                   
                    <div>
                     <span> Time: {{dTime}} s</span>
                     <span class="px-2">|</span>

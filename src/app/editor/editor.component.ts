@@ -52,7 +52,10 @@ export class EditorComponent implements OnInit {
     this.themes = ["xcode", "monokai", "twilight", "eclipse", "idle_fingers"];
     this.codeExec.language = this.selectedLang;
     this.userDetails.getUserInfo().subscribe((res: any) => {
-      this.loadDefaults();
+      console.log(res);
+      if(res.userDefaults) {
+        this.loadDefaults();
+      }
       this.handleJavaLanguage(); 
     });
     

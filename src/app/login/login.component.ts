@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
     this.auth.authenticate(data).subscribe((res:any) => {
       console.log(res);
       this.auth.storeTokens(res.token);
-      this.router.navigate(['/home']);
+      location.href = "/home";
     },
     err => {
       console.log(err);

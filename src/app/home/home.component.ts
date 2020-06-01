@@ -18,6 +18,8 @@ export class HomeComponent implements OnInit {
   reset: boolean = true;
 
   collapsed: boolean;
+  outputCollapsed: boolean = false;
+  compiling: string;
 
   dErrorFlag: boolean;
   dContext: string = "";
@@ -43,16 +45,19 @@ export class HomeComponent implements OnInit {
 
   toggleCollapse() {
     this.collapsed = !this.collapsed;
-    this.wrapper.scrollToBottom();
+    // this.wrapper.scrollToBottom();
   }
 
   customRun() {
+    this.dOutput = "";
+    this.compiling = "getting results...";
     console.log(this.codeExec.customInput);
     this.codeExec.customRun().subscribe((res: any) => {
       this.dErrorFlag = res.dErrorFlag;
       this.dContext = res.dContext;
       this.dTime = res.dTime;
       this.dOutput = res.dOutput
+      this.compiling = "";
 
     })
   }
